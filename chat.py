@@ -4,7 +4,6 @@ load_dotenv() ## loading all the environment variables
 import streamlit as st
 import os
 import google.generativeai as genai
-from datetime import datetime
 
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
@@ -38,10 +37,8 @@ if icon_col.button("🚀", key="submit-icon"):
     # Add user query and response to session state chat history
     st.session_state['chat_history'].append(("You", input_text))
     for chunk in response:
-        now = datetime.now()
-        current_time = now.strftime("%Y-%m-%d %H:%M:%S")
-        st.write(f"{current_time} - {chunk.text}", unsafe_allow_html=True)
-        st.session_state['chat_history'].append(("Bot", f"{current_time} - {chunk.text}"))
+        st.write(chunk.text, unsafe_allow_html=True)
+        st.session_state['chat_history'].append(("Bot", chunk.text))
 
 # Display feedback buttons
     feedback = st.radio("Feedback:", ["👍 Positive", "🤷 Neutral", "👎 Negative"])
@@ -65,8 +62,5 @@ if st.button("View History"):
     for fb in st.session_state['feedback']:
         st.sidebar.text(fb)
 
-    if st.button("Clear History"):
-        st.session_state['chat_history'] = []
-        st.session_state['feedback'] = []
 
 
