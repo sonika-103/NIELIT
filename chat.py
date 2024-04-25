@@ -25,24 +25,19 @@ st.markdown("<h1 style='text-align: center;'>Chatbot Application</h1>", unsafe_a
 if 'chat_history' not in st.session_state:
     st.session_state['chat_history'] = []
 
-if 'feedback' not in st.session_state:
-    st.session_state['feedback'] = []
-
 # Create a horizontal layout for input and icon
 input_col, icon_col = st.columns([9,1])
 input_text = input_col.text_area("Input:", key="input")
 if icon_col.button("🚀", key="submit-icon"):
     response=get_gemini_response(input_text)
+    st.write("**Chatbot Response:**", unsafe_allow_html=True)
 
+    
     # Add user query and response to session state chat history
     st.session_state['chat_history'].append(("You", input_text))
     for chunk in response:
         st.write(chunk.text, unsafe_allow_html=True)
         st.session_state['chat_history'].append(("Bot", chunk.text))
-
-# Display feedback buttons
-    feedback = st.radio("Feedback:", ["👍 Positive", "🤷 Neutral", "👎 Negative"])
-    st.session_state['feedback'].append(feedback)
 
 if st.button("View History"):
 # sidebar to display chat history
@@ -57,10 +52,6 @@ if st.button("View History"):
                 f'<div style="font-family: Arial, sans-serif;">🤖: {text}</div>'
             )
 
- # Display feedback history
-    st.sidebar.header("Feedback")
-    for fb in st.session_state['feedback']:
-        st.sidebar.text(fb)
 
 
 
