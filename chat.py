@@ -5,14 +5,14 @@ import streamlit as st
 import os
 import google.generativeai as genai
 
-for model in genai.list_models():
-    st.write(model.name)
+# for model in genai.list_models():
+#     st.write(model.name)
 ## genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
 ## function to load Gemini Pro model and get repsonses
 ## model=genai.GenerativeModel("gemini-pro") 
-model = genai.GenerativeModel("models/gemini-1.5-flash")
+model = genai.GenerativeModel("models/gemini-2.5-flash")
 chat = model.start_chat(history=[])
 
 def get_gemini_response(question):
