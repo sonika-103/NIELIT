@@ -9,13 +9,19 @@ import google.generativeai as genai
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
 ## function to load Gemini Pro model and get repsonses
-model=genai.GenerativeModel("gemini-pro") 
-## model = genai.GenerativeModel("gemini-1.5-flash")
+## model=genai.GenerativeModel("gemini-pro") 
+model = genai.GenerativeModel("gemini-1.5-flash")
 chat = model.start_chat(history=[])
 
 def get_gemini_response(question):
-    response=chat.send_message(question,stream=True)
-    return response
+    try:
+        response = chat.send_message(question, stream=True)
+        return response
+    except Exception as e:
+        st.error(str(e))
+        raise
+# response=chat.send_message(question,stream=True)
+    # return response
 
 ##initialize our streamlit app
 
