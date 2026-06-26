@@ -5,6 +5,8 @@ import streamlit as st
 import os
 import google.generativeai as genai
 
+for model in genai.list_models():
+    st.write(model.name)
 ## genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
